@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Conectar</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+  
+    
+    <script
+      type="text/javascript"
+      integrity="sha384-Jk2KQmxNIrlZNY8bE1bEnOjnx9PkvpwWgH/MEBCK+gpks+KdtHLnr2RzmMseDrGh"
+      crossorigin="anonymous"
+      src="https://cdn-cors.ethers.io/lib/ethers-5.5.4.umd.min.js"
+    ></script> 
+
+    <script src="./bundle.js"></script>
+
+    <!-- Conectar -->
+    <h1>Bem-vindo!</h1>
+    <h3>- (...)</h3>
+    <h3>- Certifique-se que a rede de testes está ativa.</h3>
+
+    <button class="maior" id="conectar" type="submit">Conectar</button>
+    <p class="maior" id="contratoText"></p>
+    <p class="maior" id="contaConectada"></p>
+
+    <hr />
+
+    <!-- Seção de Registro -->
+    <h2>Registro</h2>
+    <label for="nome">Nome:</label><br />
+    <input
+      type="text"
+      pattern="^[a-zA-Z_ ]*$"
+      name="nome"
+      id="nome"
+      placeholder="Inserir nome"
+      required
+    /><br />
+    <label for="numero">Registro:</label><br />
+    <input
+      type="number"
+      name="numero"
+      id="registro"
+      placeholder="Inserir n° de registro"
+      required
+    /><br />
+    <button id="registrar">Registrar</button>
+
+    <hr />
+
+    <!-- Seção de Consulta -->
+    <h2>Consulta</h2>
+    <label for="nomeconsulta">Nome:</label><br />
+    <input
+      type="text"
+      pattern="^[a-zA-Z_ ]*$"
+      id="inputConsulta"
+      placeholder="Inserir nome"
+      required
+    />
+    <button id="consultar" type="submit">Consultar</button>
+
+    <!-- Resultado da consulta -->
+    <p id="resultadoTexto"></p>
+    <h3 id="registroConsulta"></h3>
+    <button id="limpar" type="submit">Limpar</button>
+    <hr />
+
+    <button id="debug" type="submit">Debug</button>
+  </body>
+</html>
