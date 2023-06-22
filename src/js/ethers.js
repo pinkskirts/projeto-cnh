@@ -46,7 +46,7 @@ window.onload = () => {
   //Demais variáveis
   var contrato = null;
   var enderecoContrato;
-  var contas = null;
+  var conta = null;
   var signer;
   var provedor;
 
@@ -58,9 +58,9 @@ window.onload = () => {
   botaoDebug.onclick = debug;
 
   async function conectar() {
-    if (typeof window.ethereum !== undefined && contas === null) {
-      contas = await window.ethereum.request({ method: "eth_requestAccounts" });
-      contaConectada.innerHTML = `Conta conectada: ${contas}`;
+    if (typeof window.ethereum !== undefined && conta === null) {
+      conta = await window.ethereum.request({ method: "eth_requestAccounts" });
+      contaConectada.innerHTML = `Conta conectada: ${conta}`;
       await acionarContrato();
       conectarMeta.innerHTML = "Conectado!";
     } else {
@@ -72,7 +72,7 @@ window.onload = () => {
     provedor = new ethers.providers.JsonRpcProvider(RPC_URL);
     const carteira = new ethers.Wallet(CHAVE_PRIVADA, provedor);
     const contractFactory = new ethers.ContractFactory(abi, binario, carteira);
-    contrato = await contractFactory.deploy();
+    contrato = await contractFactory.deploy(); // Gera o initcode do contrato
 
     enderecoContrato = contrato.address;
     contratoText.innerText = `Endereço do contrato: ${enderecoContrato}`;
@@ -80,12 +80,12 @@ window.onload = () => {
 
   async function adicionarPessoa() {
     if (typeof window.ethereum != undefined) {
-      provedor = new ethers.providers.Web3Provider(window.ethereum); //Provedor = Metamask
-      signer = provedor.getSigner(); //Retorna a carteira atrelada ao provedor (Metamask)
-      contrato = new ethers.Contract(enderecoContrato, abi, signer);
+      provedor = new ethers.providers.Web3Provider(window.ethereum); // Provedor = Metamask
+      signer = provedor.getSigner(); // Retorna a carteira (wallet) assinante da transacao, atrelada ao provedor (Metamask)
+      contrato = new ethers.Contract(enderecoContrato, abi, signer); // Atualizacao do contrato
       try {
-        console.log("Nome inserido:", nome.value); //debug
-        console.log("Registro inserido:", registro.value); //debug
+        console.log("Nome inserido:", nome.value); // debug
+        console.log("Registro inserido:", registro.value); // debug
         const transactionResponse = await contrato.addPessoa(
           nome.value,
           registro.value
@@ -99,9 +99,6 @@ window.onload = () => {
 
   async function consultar() {
     if (typeof window.ethereum != undefined) {
-      provedor = new ethers.providers.Web3Provider(window.ethereum);
-      signer = provedor.getSigner();
-      contrato = new ethers.Contract(enderecoContrato, abi, signer);
       try {
         const registroArmazenado = await contrato.getNumero(
           inputConsulta.value
@@ -110,7 +107,7 @@ window.onload = () => {
         console.log(
           "Registro associado ao input:",
           registroArmazenado.toString()
-        ); //debug
+        ); // debug
         resultadoTexto.innerText = "Resultado:";
         registroConsulta.innerText =
           "Registro --> " + registroArmazenado.toString();
@@ -141,6 +138,7 @@ window.onload = () => {
       console.log(contrato.interface);
       console.log(contrato.provider);
       console.log(contrato.signer);
+      console.log(conta);
     }
   }
 
