@@ -23,10 +23,10 @@ window.onload = () => {
   );
   */
 
-  //Conectar
-  const conectarMeta = document.getElementById("conectar");
-  const contaConectada = document.getElementById("contaConectada");
-  const contratoText = document.getElementById("contratoText");
+  // Conexões
+  const conectarMeta = document.getElementById("conectar"); // Botão conectar -> Metamask browser add-on
+  const contaConectada = document.getElementById("contaConectada"); // Texto do endereço da conta conectada (Wallet MetaMask)
+  const contratoAtualText = document.getElementById("contratoText"); // Texto do endereço do contrato
 
   // Contratos disponíveis
   var parentElementContratos = document.getElementById("contratos"); // Elemento pai dos botões (ul contratos)
