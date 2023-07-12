@@ -10,14 +10,15 @@ struct CNH {
 contract Armazenamento {
 
     mapping(string => string) public pessoas;
-    mapping(string => uint256) public registros;
+    address dono;
 
-    function getNome(string memory _nome) public view returns (string memory) {
-        return pessoas[_nome];
+    constructor() { //Ao ser criado, o contrato armazena o endereco do realizador do contrato
+        dono = msg.sender;
     }
 
-    function getNumero(string memory _nome) public view returns (uint256) {
-        return registros[_nome];
+    modifier onlyDono { 
+        require(msg.sender == dono);
+        _;
     }
 
     function addPessoa(string memory _nome, uint256 _numero) public {
