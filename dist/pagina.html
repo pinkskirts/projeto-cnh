@@ -72,7 +72,21 @@
     /><br />
     <button id="registrar">Registrar</button>
 
+    <!-- Seção de Alteração -->
     <hr />
+    <h2>Alterar CNH</h2>
+    <label for="nomeAlterar">Nome:</label><br />
+    <input
+      type="text"
+      pattern="^[a-zA-Z_ ]*$"
+      name="nomeAlterar"
+      id="nomeAlterar"
+      placeholder="Nome a ser alterado"
+      required
+    /><br />
+    <label for="data">Data de vencimento:</label><br />
+    <input type="date" name="data" id="data" placeholder="" required /><br />
+    <button id="alterar">Alterar</button>
 
     <!-- Seção de Consulta -->
     <h2>Consulta</h2>
