@@ -47,6 +47,12 @@ window.onload = () => {
   const registroConsulta = document.getElementById("registroConsulta");
   const botaoConsultar = document.getElementById("consultar");
   const botaoLimpar = document.getElementById("limpar");
+  var resultadoConsultaElement = document.getElementById("resultadoConsulta");
+  var resultadoTextoElement = document.createElement("p");
+  var camposConsulta = document.createElement("ul");
+  var parentDivCNHs = document.getElementById("divcnhs");
+  var parentUlCNHs = document.getElementById("cnhs"); // Elemento pai dos paragrafos (ul cnhs)
+  var subtituloElement = document.createElement("p"); // Elemento subtitulo da listagem das CNHs
 
   //Outros
   const botaoDebug = document.getElementById("debug");
@@ -118,20 +124,51 @@ window.onload = () => {
   async function consultar() {
     if (typeof window.ethereum != undefined) {
       try {
-        const registroArmazenado = await contrato.getNumero(
-          inputConsulta.value
-        );
-        console.log("Input:", inputConsulta.value.toString());
-        console.log(
-          "Registro associado ao input:",
-          registroArmazenado.toString()
-        ); // debug
-        resultadoTexto.innerText = "Resultado:";
-        registroConsulta.innerText =
-          "Registro --> " + registroArmazenado.toString();
+        limparParentElement(resultadoConsultaElement);
+        limparParentElement(camposConsulta);
+
+        var size = (await contratoAtual.getCNHlength()).toNumber();
+        if (size == 0) {
+          alert("Contrato não possui CNHs armazenadas.");
+        } else {
+          var nomeArmazenado;
+          var registroArmazenado = null;
+          var aux;
+
+          for (var i = 0; i < size; i++) {
+            aux = await contratoAtual.CNHS(i);
+            if (aux.registro == inputConsulta.value) {
+              nomeArmazenado = aux.nome;
+              registroArmazenado = inputConsulta.value;
+            }
+          }
+          resultadoTextoElement.innerText = "Resultado:";
+          resultadoConsultaElement.appendChild(resultadoTextoElement);
+
+          if (registroArmazenado !== null) {
+            var nomeConsultaElement = document.createElement("li");
+            var registroConsultaElement = document.createElement("li");
+
+            nomeConsultaElement.innerText = "Nome: " + nomeArmazenado;
+            registroConsultaElement.innerText =
+              "Registro: " + registroArmazenado;
+
+            resultadoConsultaElement.appendChild(camposConsulta);
+            camposConsulta.appendChild(nomeConsultaElement);
+            camposConsulta.appendChild(registroConsultaElement);
+          } else {
+            var CNHNotFoundElement = document.createElement("p");
+            CNHNotFoundElement.innerText = "CNH não encontrada!";
+            resultadoConsultaElement.appendChild(CNHNotFoundElement);
+          }
+        }
       } catch (error) {
         console.log(error);
       }
+    } else if (typeof window.ethereum != undefined) {
+      alert("Escolha um contrato primeiro!");
+    } else {
+      alert("Por favor, conecte-se ao MetaMask!");
     }
   }
 
