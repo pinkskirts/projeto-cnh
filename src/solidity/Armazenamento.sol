@@ -24,4 +24,7 @@ contract Armazenamento {
     function getCNHlength() public view onlyDono returns (uint256) {
         return CNHS.length;
     }
+
+    function addCNH(string memory _nome, uint256 _registro) public onlyDono {
+        CNHS.push(CNH(_nome, _registro, 0)); 
 }
