@@ -9,7 +9,7 @@ struct CNH {
 
 contract Armazenamento {
 
-    mapping(string => string) public pessoas;
+    CNH[] public CNHS; // Array dinamico
     address dono;
 
     constructor() { //Ao ser criado, o contrato armazena o endereco do realizador do contrato
@@ -21,8 +21,7 @@ contract Armazenamento {
         _;
     }
 
-    function addPessoa(string memory _nome, uint256 _numero) public {
-        pessoas[_nome] = _nome;
-        registros[_nome] = _numero; 
+    function getCNHlength() public view onlyDono returns (uint256) {
+        return CNHS.length;
     }
 }
