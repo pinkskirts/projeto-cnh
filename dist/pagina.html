@@ -40,22 +40,34 @@
     <button id="acionarContrato" type="submit" class="maior">Acionar</button>
 
     <!-- Seção de Registro -->
-    <h2>Registro</h2>
-    <label for="nome">Nome:</label><br />
+    <hr />
+    <h2>Registro de CNH</h2>
+
+    <label for="nomeregistro">Nome:</label><br />
     <input
       type="text"
       pattern="^[a-zA-Z_ ]*$"
-      name="nome"
-      id="nome"
+      name="nomeregistro"
+      id="nomeInput"
       placeholder="Inserir nome"
       required
     /><br />
-    <label for="numero">Registro:</label><br />
+
+    <label for="numeroregistro">Registro:</label><br />
     <input
       type="number"
-      name="numero"
-      id="registro"
+      name="numeroregistro"
+      id="registroInput"
       placeholder="Inserir n° de registro"
+      required
+    /><br />
+
+    <label for="validaderegistro">Validade:</label><br />
+    <input
+      type="date"
+      name="validaderegistro"
+      id="validadeInput"
+      placeholder="Inserir validade"
       required
     /><br />
     <button id="registrar">Registrar</button>
