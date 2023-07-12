@@ -1,6 +1,12 @@
 //SPDX-License-Identifier: MIT
 pragma solidity >=0.8.0 <0.9.0;
 
+struct CNH {
+    string nome;
+    uint256 registro;
+    uint256 validade; // Especificado em tempo Unix Epoch
+}
+
 contract Armazenamento {
 
     mapping(string => string) public pessoas;
