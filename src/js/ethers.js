@@ -35,6 +35,10 @@ window.onload = () => {
   // Adicionar novo contrato
   const acionarNovoContratoButton = document.getElementById("acionarContrato");
 
+  // Registrar
+  const nome = document.getElementById("nomeInput");
+  const registro = document.getElementById("registroInput");
+  const validade = document.getElementById("validadeInput");
   const registrar = document.getElementById("registrar");
 
   //Consultar
@@ -82,22 +86,32 @@ window.onload = () => {
     contratoText.innerText = `Endereço do contrato: ${enderecoContrato}`;
   }
 
-  async function adicionarPessoa() {
-    if (typeof window.ethereum != undefined) {
+  async function adicionarCNH() {
+    if (typeof window.ethereum != undefined && enderecoContratoAtual != null) {
       provedor = new ethers.providers.Web3Provider(window.ethereum); // Provedor = Metamask
-      signer = provedor.getSigner(); // Retorna a carteira (wallet) assinante da transacao, atrelada ao provedor (Metamask)
-      contrato = new ethers.Contract(enderecoContrato, abi, signer); // Atualizacao do contrato
+      const nomeRegistro = nome.value;
+      const numeroRegistro = parseInt(registro.value);
+      const validadeRegistro = validade.value;
+      console.log(validadeRegistro);
+
+      console.log("Nome inserido:", nomeRegistro, typeof nomeRegistro); // debug
+      console.log("Registro inserido:", numeroRegistro, typeof numeroRegistro); // debug
+
       try {
-        console.log("Nome inserido:", nome.value); // debug
-        console.log("Registro inserido:", registro.value); // debug
-        const transactionResponse = await contrato.addPessoa(
-          nome.value,
-          registro.value
+        const transactionResponse = await contratoAtual.addCNH(
+          nomeRegistro,
+          numeroRegistro
         );
         await listenForTransactionMine(transactionResponse, provedor);
+        subtituloElement.innerText = "Registros disponíveis:";
+        loadCNHs();
       } catch (error) {
         console.log(error);
       }
+    } else if (typeof window.ethereum != undefined) {
+      alert("Escolha um contrato primeiro!");
+    } else {
+      alert("Por favor, conecte-se ao MetaMask!");
     }
   }
 
