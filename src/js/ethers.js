@@ -64,6 +64,21 @@ window.onload = () => {
   botaoConsultar.onclick = consultar;
   botaoLimpar.onclick = limpar;
   botaoDebug.onclick = debug;
+  parentElementContratos.addEventListener("click", function (event) {
+    // Verifica se o evento foi originado pelo botão dinamicamente adicionado
+    if (event.target.classList.contains("botoes-contrato")) {
+      // Manipula o evento do botão
+      contratoAtualText.innerText = `Contrato selecionado: ${event.target.innerHTML}`;
+      enderecoContratoAtual = event.target.innerHTML;
+
+      contratoAtual = new ethers.Contract(enderecoContratoAtual, abi, signer); // Atualizacao do contrato
+      contratoAtual.attach(enderecoContratoAtual);
+
+      limparParentElement(parentUlCNHs); // Remove todos os elementos-filho da div
+      loadCNHs();
+    }
+  });
+
 
   async function conectar() {
     if (typeof window.ethereum !== undefined && conta === null) {
