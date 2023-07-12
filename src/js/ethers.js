@@ -28,9 +28,9 @@ window.onload = () => {
   const contaConectada = document.getElementById("contaConectada");
   const contratoText = document.getElementById("contratoText");
 
-  //Registrar
-  const nome = document.getElementById("nome");
-  const registro = document.getElementById("registro");
+  // Contratos disponíveis
+  var parentElementContratos = document.getElementById("contratos"); // Elemento pai dos botões (ul contratos)
+  var contratosInexistentesElement = document.createElement("p");
   const registrar = document.getElementById("registrar");
 
   //Consultar
