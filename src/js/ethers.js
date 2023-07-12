@@ -114,12 +114,17 @@ window.onload = () => {
 
   async function acionarContrato() {
     provedor = new ethers.providers.JsonRpcProvider(RPC_URL);
-    const carteira = new ethers.Wallet(CHAVE_PRIVADA, provedor);
+    carteira = new ethers.Wallet(CHAVE_PRIVADA, provedor);
     const contractFactory = new ethers.ContractFactory(abi, binario, carteira);
-    contrato = await contractFactory.deploy(); // Gera o initcode do contrato
+    contratoAtual = await contractFactory.deploy(); // Gera o initcode do contrato
+    contratoAtual = new ethers.Contract(contratoAtual.address, abi, signer); // Atualizacao do contrato
 
-    enderecoContrato = contrato.address;
-    contratoText.innerText = `Endereço do contrato: ${enderecoContrato}`;
+    // Adiciona o novo contrato instanciado a lista (HTML) de contratos disponíveis
+    var novoContratoButton = document.createElement("button");
+    novoContratoButton.innerText = contratoAtual.address;
+    novoContratoButton.classList = "botoes-contrato";
+    parentElementContratos.appendChild(novoContratoButton);
+    contratosInexistentesElement.innerText = "";
   }
 
   async function adicionarCNH() {
