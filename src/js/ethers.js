@@ -41,7 +41,7 @@ window.onload = () => {
   const validade = document.getElementById("validadeInput");
   const registrar = document.getElementById("registrar");
 
-  //Consultar
+  // Consultar
   const inputConsulta = document.getElementById("inputConsulta");
   const resultadoTexto = document.getElementById("resultadoTexto");
   const registroConsulta = document.getElementById("registroConsulta");
@@ -54,19 +54,13 @@ window.onload = () => {
   var parentUlCNHs = document.getElementById("cnhs"); // Elemento pai dos paragrafos (ul cnhs)
   var subtituloElement = document.createElement("p"); // Elemento subtitulo da listagem das CNHs
 
-  //Outros
+  // Outros + DEBUG (verificar browser console)
   const botaoDebug = document.getElementById("debug");
+  var elementoAux; // Variavel auxiliar para outros elementos html
 
-  //Demais variáveis
-  var contrato = null;
-  var enderecoContrato;
-  var conta = null;
-  var signer;
-  var provedor;
-
-  //Atribuição das funções aos botões
+  // Atribuição das funções aos botões
   conectarMeta.onclick = conectar;
-  registrar.onclick = adicionarPessoa;
+  registrar.onclick = adicionarCNH;
   botaoConsultar.onclick = consultar;
   botaoLimpar.onclick = limpar;
   botaoDebug.onclick = debug;
@@ -222,6 +216,61 @@ window.onload = () => {
         elementoAux = document.createElement("br");
         parentElementContratos.appendChild(novoElementoButton);
         parentElementContratos.appendChild(elementoAux);
+      }
+    }
+  }
+
+  // Carrega as CNHs dispostas no contrato selecionado
+  async function loadCNHs() {
+    if (typeof window.ethereum !== undefined && contratoAtual !== undefined) {
+      let nomeArmazenado; // debug
+      let registroArmazenado;
+
+      try {
+        var size = (await contratoAtual.getCNHlength()).toNumber();
+        console.log("Quantidade de CNHs no contrato: " + size); // debug
+
+        if (size === 0) {
+          subtituloElement.innerText = "Contrato vazio!";
+          parentDivCNHs.classList = "";
+          parentUlCNHs.appendChild(subtituloElement);
+        } else {
+          subtituloElement.innerText = "Registros disponíveis:";
+          parentDivCNHs.classList = "box";
+          parentUlCNHs.appendChild(subtituloElement);
+
+          for (let i = 0; i < size; i++) {
+            var elemento = await contratoAtual.CNHS(i);
+
+            nomeArmazenado = elemento.nome;
+            registroArmazenado = elemento.registro.toNumber();
+
+            console.log("Nome: " + nomeArmazenado); // debug
+            console.log("Registro: " + registroArmazenado); // debug
+
+            var contadorElement = document.createElement("li");
+            contadorElement.innerText = "# - " + (i + 1).toString();
+            parentUlCNHs.appendChild(contadorElement);
+
+            /*
+            var nomeArmazenadoElement = document.createElement("li");
+            nomeArmazenadoElement.innerText = "Nome: " + nomeArmazenado;
+            parentUlCNHs.appendChild(nomeArmazenadoElement);
+            */
+
+            var registroArmazenadoElement = document.createElement("li");
+            registroArmazenadoElement.innerText =
+              "Registro: " + registroArmazenado;
+            parentUlCNHs.appendChild(registroArmazenadoElement);
+
+            elementoAux = document.createElement("br"); // Quebra de linha
+            parentUlCNHs.appendChild(elementoAux);
+          }
+          console.log(parentDivCNHs); // debug
+        }
+      } catch (error) {
+        console.log(error);
+        alert("Por favor, espere a finalização da inicialização do contrato.");
       }
     }
   }
