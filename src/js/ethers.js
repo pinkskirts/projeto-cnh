@@ -311,12 +311,18 @@ window.onload = () => {
     }
   }
 
+  async function debug() {
+    if (typeof window.ethereum == undefined || contratoAtual === null) {
+      alert("Escolha um contrato primeiro!");
     } else {
-      console.log("Endereço do contrato: ", contrato.address); //debug
-      console.log(contrato.deployTransaction);
-      console.log(contrato.interface);
-      console.log(contrato.provider);
-      console.log(contrato.signer);
+      console.log("Provedor: ", provedor);
+      console.log("Signer: ", signer);
+      console.log("Contrato: ", contratoAtual);
+      console.log("Endereço do contrato: ", contratoAtual.address); //debug
+      console.log(contratoAtual.deployTransaction);
+      console.log(contratoAtual.interface);
+      console.log(contratoAtual.provider);
+      console.log(contratoAtual.signer);
       console.log(conta);
     }
   }
