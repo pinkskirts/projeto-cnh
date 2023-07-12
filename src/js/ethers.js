@@ -12,6 +12,14 @@ window.onload = () => {
     "0b252161d411f4dce27b3dbb1c3eb35c54aa0bd8361cb3af046280730105a9c2";
   const RPC_URL = "http://127.0.0.1:7545";
 
+  var contratoAtual = null;
+  var enderecoContratoAtual = null;
+  var conta = null;
+  var signer;
+  var provedor;
+  var contractAddresses = [];
+  var carteira = null;
+
   /*
   const abi = fs.readFileSync(
     "../solidity/Armazenamento_sol_Armazenamento.abi",
@@ -60,6 +68,7 @@ window.onload = () => {
 
   // Atribuição das funções aos botões
   conectarMeta.onclick = conectar;
+  acionarNovoContratoButton.onclick = acionarContrato;
   registrar.onclick = adicionarCNH;
   botaoConsultar.onclick = consultar;
   botaoLimpar.onclick = limpar;
@@ -79,6 +88,9 @@ window.onload = () => {
     }
   });
 
+  provedor = new ethers.providers.Web3Provider(window.ethereum);
+  signer = provedor.getSigner(); // Retorna a carteira (objeto da carteira) assinante das transacoes, atrelada ao provedor (Metamask)
+  loadContratos(); // Inicia o carregamento dos contratos disponíveis
 
   async function conectar() {
     if (typeof window.ethereum !== undefined && conta === null) {
@@ -319,8 +331,9 @@ window.onload = () => {
   }
 
   function limpar() {
-    resultadoTexto.innerHTML = "";
-    registroConsulta.innerHTML = "";
+    resultadoTextoElement.innerHTML = "";
+    limparParentElement(camposConsulta);
+    parentDivCNHs.classList = "";
   }
   
   const abi = [
