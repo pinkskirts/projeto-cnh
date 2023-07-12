@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <title>SmartContract</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <script
+      type="text/javascript"
+      integrity="sha384-Jk2KQmxNIrlZNY8bE1bEnOjnx9PkvpwWgH/MEBCK+gpks+KdtHLnr2RzmMseDrGh"
+      crossorigin="anonymous"
+      src="https://cdn-cors.ethers.io/lib/ethers-5.5.4.umd.min.js"
+    ></script>
+
+    <script src="./bundle.js"></script>
+
+    <!-- Seção Inicial - Conectar ao MetaMask -->
+    <h1>Bem-vindo!</h1>
+    <h3>- (...)</h3>
+    <h3>- Certifique-se que a rede de testes está ativa.</h3>
+
+    <button class="maior" id="conectar" type="submit">Conectar</button>
+    <p class="maior" id="contaConectada"></p>
+    <p class="maior" id="contratoText"></p>
+
+    <!-- Seção de contratos disponíveis -->
+    <hr />
+    <h4>Contratos:</h4>
+    <div class="box">
+      <ul class="scrollable-list" id="contratos"></ul>
+    </div>
+
+    <!--  Seção de adição de novos contratos -->
+    <hr />
+    <h2>Instanciar novo contrato</h2>
+    <button id="acionarContrato" type="submit" class="maior">Acionar</button>
+
+    <!-- Seção de Registro -->
+    <hr />
+    <h2>Registro de CNH</h2>
+
+    <label for="nomeregistro">Nome:</label><br />
+    <input
+      type="text"
+      pattern="^[a-zA-Z_ ]*$"
+      name="nomeregistro"
+      id="nomeInput"
+      placeholder="Inserir nome"
+      required
+    /><br />
+
+    <label for="numeroregistro">Registro:</label><br />
+    <input
+      type="number"
+      name="numeroregistro"
+      id="registroInput"
+      placeholder="Inserir n° de registro"
+      required
+    /><br />
+
+    <label for="validaderegistro">Validade:</label><br />
+    <input
+      type="date"
+      name="validaderegistro"
+      id="validadeInput"
+      placeholder="Inserir validade"
+      required
+    /><br />
+    <button id="registrar">Registrar</button>
+
+    <!-- Seção de Alteração -->
+    <hr />
+    <h2>Alterar CNH</h2>
+    <label for="nomeAlterar">Nome:</label><br />
+    <input
+      type="text"
+      pattern="^[a-zA-Z_ ]*$"
+      name="nomeAlterar"
+      id="nomeAlterar"
+      placeholder="Nome a ser alterado"
+      required
+    /><br />
+    <label for="data">Data de vencimento:</label><br />
+    <input type="date" name="data" id="data" placeholder="" required /><br />
+    <button id="alterar">Alterar</button>
+
+    <!-- Seção de Consulta -->
+    <hr />
+    <h2>Histórico de Contrato</h2>
+    <p>Campo de pesquisa</p>
+    <label for="inputConsulta">Registro:</label><br />
+    <input
+      type="number"
+      pattern="^[a-zA-Z_ ]*$"
+      id="inputConsulta"
+      placeholder="Inserir n° de registro"
+      required
+    />
+    <button id="consultar" type="submit">Consultar</button>
+
+    <!-- Resultado da consulta -->
+
+    <div id="resultadoConsulta"></div>
+
+    <button id="limpar" type="submit">Limpar</button>
+
+    <div id="divcnhs">
+      <ul class="scrollable-list" id="cnhs"></ul>
+    </div>
+
+    <hr />
+    <!-- Outros - Debug -->
+    <button id="debug" type="submit">Debug</button>
+  </body>
+</html>
