@@ -51,8 +51,6 @@ window.onload = () => {
 
   // Consultar
   const inputConsulta = document.getElementById("inputConsulta");
-  const resultadoTexto = document.getElementById("resultadoTexto");
-  const registroConsulta = document.getElementById("registroConsulta");
   const botaoConsultar = document.getElementById("consultar");
   const botaoLimpar = document.getElementById("limpar");
   var resultadoConsultaElement = document.getElementById("resultadoConsulta");
@@ -157,7 +155,7 @@ window.onload = () => {
   }
 
   async function consultar() {
-    if (typeof window.ethereum != undefined) {
+    if (typeof window.ethereum !== undefined && contratoAtual !== null) {
       try {
         limparParentElement(resultadoConsultaElement);
         limparParentElement(camposConsulta);
@@ -207,6 +205,7 @@ window.onload = () => {
     }
   }
 
+  // Devolve a confirmação da transação no bloco
   function listenForTransactionMine(transactionResponse, provider) {
     console.log(`Hash da transação: ${transactionResponse.hash}`);
     return new Promise((resolve, reject) => {
