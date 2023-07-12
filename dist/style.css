@@ -1,38 +1,43 @@
 body {
-    background-color: rgba(25, 147, 151, 0.455);
-    margin: 5px;
-    padding: 20px;
-    font: normal 15px Arial;
-    font-size: 20px;
+  background-color: rgba(25, 147, 151, 0.455);
+  margin: 5px;
+  padding: 20px;
+  font: normal 15px Arial;
+  font-size: 20px;
 }
 
 h1 {
-    font: normal 40px Impact;
-    text-align: center;
+  font: normal 40px Impact;
+  text-align: center;
 }
 
 button {
-    margin: 8px;
-    scale: 1.2;
+  margin: 8px;
+  scale: 1.2;
 }
 
 button:hover {
-    background-color: rgba(171, 172, 172, 0.625);
+  background-color: rgba(171, 172, 172, 0.625);
 }
 
 h4 {
-    text-align: center
+  text-align: center;
 }
 
 a {
-    font: normal 15px Arial;
-    font-size: 20px;
-}
-
-input {
-    margin: 2px;
+  font: normal 15px Arial;
+  font-size: 20px;
 }
 
 .maior {
-    font-size: 20px;
+  font-size: 20px;
+}
+
+.box {
+  height: 150px; /* Altura desejada para a caixa */
+  overflow: auto; /* Adiciona uma barra de rolagem quando necessário */
+}
+
+.scrollable-list {
+  list-style-type: none;
 }
