@@ -184,9 +184,48 @@ window.onload = () => {
     });
   }
 
-  function debug() {
-    if (typeof window.ethereum == undefined || contrato === null) {
-      alert("Inicialize o contrato primeiro!");
+  // Carrega os endereços dos contratos do Ganache
+  async function loadContratos() {
+    provedor = new ethers.providers.JsonRpcProvider(RPC_URL);
+
+    const blockNumber = await provedor.getBlockNumber();
+
+    // Carrega os endereços e os armazenam em "contractAddresses"
+    for (let i = 0; i <= blockNumber; i++) {
+      const block = await provedor.getBlockWithTransactions(i);
+
+      for (const transaction of block.transactions) {
+        const receipt = await provedor.getTransactionReceipt(transaction.hash);
+
+        if (receipt.contractAddress) {
+          contractAddresses.push(receipt.contractAddress);
+        }
+      }
+    }
+
+    console.log(contractAddresses); // debug
+
+    if (contractAddresses.length == 0) {
+      // Caso não haja contratos estabelecidos
+      contratosInexistentesElement.innerText = "Contratos inexistentes!";
+      parentElementContratos.appendChild(contratosInexistentesElement);
+    } else {
+      provedor = new ethers.providers.JsonRpcProvider(RPC_URL);
+      carteira = new ethers.Wallet(CHAVE_PRIVADA, provedor);
+
+      // Cria um número N de botões de acordo com o número de contratos disponíveis
+      for (let i = 0; i < contractAddresses.length; i++) {
+        var novoElementoButton = document.createElement("button"); // Cria um novo elemento botão
+        novoElementoButton.innerText = contractAddresses[i].toString();
+        novoElementoButton.classList = "botoes-contrato";
+
+        elementoAux = document.createElement("br");
+        parentElementContratos.appendChild(novoElementoButton);
+        parentElementContratos.appendChild(elementoAux);
+      }
+    }
+  }
+
     } else {
       console.log("Endereço do contrato: ", contrato.address); //debug
       console.log(contrato.deployTransaction);
