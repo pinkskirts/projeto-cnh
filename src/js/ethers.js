@@ -31,6 +31,10 @@ window.onload = () => {
   // Contratos disponíveis
   var parentElementContratos = document.getElementById("contratos"); // Elemento pai dos botões (ul contratos)
   var contratosInexistentesElement = document.createElement("p");
+
+  // Adicionar novo contrato
+  const acionarNovoContratoButton = document.getElementById("acionarContrato");
+
   const registrar = document.getElementById("registrar");
 
   //Consultar
@@ -139,6 +143,15 @@ window.onload = () => {
       console.log(contrato.provider);
       console.log(contrato.signer);
       console.log(conta);
+    }
+  }
+
+  // Elimina um elemento DOM e todos os seus elementos-filho subsequentes
+  function limparParentElement(_parentElement) {
+    if (_parentElement.hasChildNodes) {
+      while (_parentElement.firstChild) {
+        _parentElement.removeChild(_parentElement.firstChild);
+      }
     }
   }
 
