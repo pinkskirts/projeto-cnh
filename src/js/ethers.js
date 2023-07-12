@@ -67,10 +67,19 @@ window.onload = () => {
 
   async function conectar() {
     if (typeof window.ethereum !== undefined && conta === null) {
-      conta = await window.ethereum.request({ method: "eth_requestAccounts" });
+      try {
+        conta = await window.ethereum.request({
+          method: "eth_requestAccounts",
+        });
+        if (conta !== null) {
+          // Atualiza as labels conforme a operação de login na extensão é realizada
       contaConectada.innerHTML = `Conta conectada: ${conta}`;
-      await acionarContrato();
       conectarMeta.innerHTML = "Conectado!";
+        }
+      } catch (error) {
+        // Caso o usuário possua a extensão, mas não tenha se conectado ainda
+        alert("Por favor, conecte-se ao MetaMask!");
+      }
     } else {
       alert("Conexão já estabelecida!");
     }
