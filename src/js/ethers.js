@@ -72,6 +72,7 @@ window.onload = () => {
   botaoLimpar.onclick = limpar;
   botaoDebug.onclick = debug;
   parentElementContratos.addEventListener("click", function (event) {
+    if (conta !== null) {
     // Verifica se o evento foi originado pelo botão dinamicamente adicionado
     if (event.target.classList.contains("botoes-contrato")) {
       // Manipula o evento do botão
@@ -83,6 +84,9 @@ window.onload = () => {
 
       limparParentElement(parentUlCNHs); // Remove todos os elementos-filho da div
       loadCNHs();
+    }
+    } else {
+      alert("Por favor, conecte-se ao MetaMask!");
     }
   });
 
