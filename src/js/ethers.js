@@ -319,6 +319,12 @@ window.onload = () => {
     }
   }
 
+  function converterDataParaUnixEpoch(dataString) {
+    var data = new Date(dataString);
+    var segundos = Math.floor(data.getTime() / 1000);
+    return segundos;
+  }
+
   async function debug() {
     if (typeof window.ethereum == undefined || contratoAtual === null) {
       alert("Escolha um contrato primeiro!");
