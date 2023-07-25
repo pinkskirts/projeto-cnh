@@ -100,18 +100,18 @@ window.onload = () => {
   botaoDebug.onclick = debug;
   parentElementContratos.addEventListener("click", function (event) {
     if (conta !== null) {
-    // Verifica se o evento foi originado pelo botão dinamicamente adicionado
-    if (event.target.classList.contains("botoes-contrato")) {
-      // Manipula o evento do botão
-      contratoAtualText.innerText = `Contrato selecionado: ${event.target.innerHTML}`;
-      enderecoContratoAtual = event.target.innerHTML;
+      // Verifica se o evento foi originado pelo botão dinamicamente adicionado
+      if (event.target.classList.contains("botoes-contrato")) {
+        // Manipula o evento do botão
+        contratoAtualText.innerText = `Contrato selecionado: ${event.target.innerHTML}`;
+        enderecoContratoAtual = event.target.innerHTML;
 
-      contratoAtual = new ethers.Contract(enderecoContratoAtual, abi, signer); // Atualizacao do contrato
-      contratoAtual.attach(enderecoContratoAtual);
+        contratoAtual = new ethers.Contract(enderecoContratoAtual, abi, signer); // Atualizacao do contrato
+        contratoAtual.attach(enderecoContratoAtual);
 
-      limparParentElement(parentUlCNHs); // Remove todos os elementos-filho da div
-      loadCNHs();
-    }
+        limparParentElement(parentUlCNHs); // Remove todos os elementos-filho da div
+        loadCNHs();
+      }
     } else {
       alert("Por favor, conecte-se ao MetaMask!");
     }
