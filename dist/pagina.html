@@ -105,7 +105,32 @@
     </div>
 
     <hr />
+
+    <!-- Seção de Alteração -->
+    <h2>Alterar CNH</h2>
+    <label for="registroAlterar">N° de Registro:</label> <br />
+    <input
+      type="number"
+      id="registroAlterar"
+      placeholder="Inserir n° de registro"
+    /><br />
+    <br />
+
+    <u>Campo(s) a alterar:</u>
+    <form id="formCheckboxAlterar">
+      <label for="nomeAlterar"><b>Nome</b></label>
+      <input type="checkbox" id="nomeAlterar" />
+
+      <label for="validadeAlterar"><b>Validade</b></label>
+      <input type="checkbox" id="validadeAlterar" />
+    </form>
+    <br />
+
+    <div id="campoNome"></div>
+    <div id="campoValidade"></div>
+
     <!-- Outros - Debug -->
+    <hr />
     <button id="debug" type="submit">Debug</button>
   </body>
 </html>
