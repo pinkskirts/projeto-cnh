@@ -336,6 +336,8 @@ window.onload = () => {
     if (typeof window.ethereum == undefined || contratoAtual == null) {
       alert("Escolha um contrato primeiro!");
     } else {
+      console.log("Data atual (Unix Epoch): ", getEpochAtual());
+      console.log("Data atual: ", converterUnixEpochParaData(getEpochAtual()));
       console.log("Provedor: ", provedor);
       console.log("Signer: ", signer);
       console.log("Contrato: ", contratoAtual);
@@ -410,6 +412,11 @@ window.onload = () => {
           name: "_registro",
           type: "uint256",
         },
+        {
+          internalType: "uint256",
+          name: "_validade",
+          type: "uint256",
+        },
       ],
       name: "addCNH",
       outputs: [],
@@ -422,10 +429,10 @@ window.onload = () => {
           internalType: "uint256",
           name: "_index",
           type: "uint256",
-    },
-    {
+        },
+        {
           internalType: "string",
-          name: "_novonome",
+          name: "_nome",
           type: "string",
         },
       ],
@@ -435,7 +442,18 @@ window.onload = () => {
       type: "function",
     },
     {
-      inputs: [],
+      inputs: [
+        {
+          internalType: "uint256",
+          name: "_index",
+          type: "uint256",
+        },
+        {
+          internalType: "uint256",
+          name: "_validade",
+          type: "uint256",
+        },
+      ],
       name: "alterarValidade",
       outputs: [],
       stateMutability: "nonpayable",
