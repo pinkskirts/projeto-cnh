@@ -61,12 +61,35 @@ window.onload = () => {
   var parentDivCNHsBox = document.getElementById("divcnhsbox");
   var parentUlCNHs = document.getElementById("cnhs"); // Elemento pai dos paragrafos (ul cnhs)
   var subtituloElement = document.createElement("p"); // Elemento subtitulo da listagem das CNHs
+  var divhrElement = document.getElementById("divhr");
 
   //Alterar CNH
+  var inputRegistroAlterar = document.getElementById("registroAlterar");
+  var checkboxNome = document.getElementById("nomeAlterar");
+  var checkboxValidade = document.getElementById("validadeAlterar");
+  var parentDivCampoNome = document.getElementById("campoNome");
+  var parentDivCampoValidade = document.getElementById("campoValidade");
+  var botaoAlterarNome = document.createElement("button");
+  var botaoAlterarValidade = document.createElement("button");
+  botaoAlterarNome.innerHTML = "Alterar";
+  botaoAlterarValidade.innerHTML = "Alterar";
 
   // Outros + DEBUG (verificar browser console)
   const botaoDebug = document.getElementById("debug");
-  var elementoAux; // Variavel auxiliar para outros elementos html
+  var labelValidade = document.createElement("label");
+  var inputValidade = document.createElement("input");
+  var labelNome = document.createElement("label");
+  var inputNome = document.createElement("input");
+
+  inputValidade.type = "date";
+  inputValidade.setAttribute("id", "inputValidade");
+
+  inputNome.type = "text";
+  inputNome.setAttribute("pattern", "^[a-zA-Z_ ]*$");
+  inputNome.setAttribute("id", "inputNome");
+
+  labelValidade.setAttribute("for", "inputValidade");
+  labelNome.setAttribute("for", "inputNome");
 
   // Atribuição das funções aos botões
   conectarMeta.onclick = conectar;
