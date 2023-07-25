@@ -311,6 +311,39 @@ window.onload = () => {
     }
   }
 
+  async function mudarValidade() {
+    if (typeof window.ethereum != undefined && contratoAtual != undefined) {
+      try {
+        var size = (await contratoAtual.getCNHlength()).toNumber();
+        let aux;
+
+        let validade = converterDataParaUnixEpoch(inputValidade.value);
+        console.log(validade);
+
+        for (var i = 0; i < size; i++) {
+          aux = await contratoAtual.CNHS(i);
+          if (aux.registro == inputRegistroAlterar.value) {
+            try {
+              var transactionResponse = await contratoAtual.alterarValidade(
+                i,
+                validade
+              );
+              await listenForTransactionMine(transactionResponse, provedor);
+            } catch (error) {
+              console.log(error);
+            }
+          }
+        }
+        loadCNHs();
+      } catch (error) {
+        console.log(error); // debug
+      }
+    } else {
+      alert("Escolha um contrato primeiro!");
+    }
+  }
+
+
   function getEpochAtual() {
     var dataAtual = new Date();
     var tempoEmMilissegundos = dataAtual.getTime();
