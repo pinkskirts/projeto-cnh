@@ -324,6 +324,14 @@ window.onload = () => {
     return segundos;
   }
 
+  function converterUnixEpochParaData(unixEpoch) {
+    var data = new Date(unixEpoch * 1000 + 86400);
+    var ano = data.getFullYear();
+    var mes = String(data.getMonth() + 1).padStart(2, "0");
+    var dia = String(data.getDate()).padStart(2, "0");
+    return ano + "-" + mes + "-" + dia;
+  }
+
   async function debug() {
     if (typeof window.ethereum == undefined || contratoAtual == null) {
       alert("Escolha um contrato primeiro!");
