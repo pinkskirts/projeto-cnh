@@ -132,6 +132,25 @@ window.onload = () => {
     }
   });
 
+  checkboxNome.addEventListener("change", function () {
+    if (checkboxNome.checked) {
+      // check
+      gerarElementsAlterarNome();
+    } else {
+      // uncheck
+      limparParentElement(parentDivCampoNome);
+    }
+  });
+
+  checkboxValidade.addEventListener("change", function (event) {
+    if (checkboxValidade.checked) {
+      // check
+      gerarElementsAlterarValidade();
+    } else {
+      // uncheck
+      limparParentElement(parentDivCampoValidade);
+    }
+  });
 
   provedor = new ethers.providers.Web3Provider(window.ethereum);
   signer = provedor.getSigner(); // Retorna a carteira (objeto da carteira) assinante das transacoes, atrelada ao provedor (Metamask)
