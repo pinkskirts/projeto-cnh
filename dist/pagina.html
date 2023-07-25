@@ -59,31 +59,29 @@
       required
     /><br />
 
-    <label for="validaderegistro">Validade:</label><br />
+    <div>
+      <br />
+      Selecione o modo de inserção de validade:
+      <form id="formValidade">
+        <ul>
+          <li>
+            <label for="manual">Manual</label>
+            <input type="radio" id="manual" name="modo" value="manual" />
+          </li>
+          <li>
+            <label for="automatico">Automático</label>
     <input
-      type="date"
-      name="validaderegistro"
-      id="validadeInput"
-      placeholder="Inserir validade"
-      required
-    /><br />
-    <button id="registrar">Registrar</button>
+              type="radio"
+              id="automatico"
+              name="modo"
+              value="automatico"
+            />
+          </li>
+        </ul>
+      </form>
 
-    <!-- Seção de Alteração -->
-    <hr />
-    <h2>Alterar CNH</h2>
-    <label for="nomeAlterar">Nome:</label><br />
-    <input
-      type="text"
-      pattern="^[a-zA-Z_ ]*$"
-      name="nomeAlterar"
-      id="nomeAlterar"
-      placeholder="Nome a ser alterado"
-      required
-    /><br />
-    <label for="data">Data de vencimento:</label><br />
-    <input type="date" name="data" id="data" placeholder="" required /><br />
-    <button id="alterar">Alterar</button>
+      <div id="addValidade"></div>
+    </div>
 
     <!-- Seção de Consulta -->
     <hr />
