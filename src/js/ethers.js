@@ -46,8 +46,11 @@ window.onload = () => {
   // Registrar
   const nome = document.getElementById("nomeInput");
   const registro = document.getElementById("registroInput");
+  const formValidade = document.getElementById("formValidade");
+  var addValidadeElement = document.getElementById("addValidade");
   var botaoRegistrar = document.createElement("button");
   botaoRegistrar.innerHTML = "Registrar";
+  var opcaoValidade = null;
 
   // Consultar CNH
   const inputConsulta = document.getElementById("inputConsulta");
