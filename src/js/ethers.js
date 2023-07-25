@@ -7,7 +7,7 @@ const { ethers } = require("ethers"); //5.4.0
 window.onload = () => {
   //const CHAVE_PRIVADA = process.env.PRIVATE_KEY;
   //const RPC_URL = process.env.RPC_URL;
-  
+
   const CHAVE_PRIVADA =
     "0b252161d411f4dce27b3dbb1c3eb35c54aa0bd8361cb3af046280730105a9c2";
   const RPC_URL = "http://127.0.0.1:7545";
@@ -46,19 +46,23 @@ window.onload = () => {
   // Registrar
   const nome = document.getElementById("nomeInput");
   const registro = document.getElementById("registroInput");
-  const validade = document.getElementById("validadeInput");
-  const registrar = document.getElementById("registrar");
+  var botaoRegistrar = document.createElement("button");
+  botaoRegistrar.innerHTML = "Registrar";
 
-  // Consultar
+  // Consultar CNH
   const inputConsulta = document.getElementById("inputConsulta");
   const botaoConsultar = document.getElementById("consultar");
   const botaoLimpar = document.getElementById("limpar");
   var resultadoConsultaElement = document.getElementById("resultadoConsulta");
   var resultadoTextoElement = document.createElement("p");
   var camposConsulta = document.createElement("ul");
-  var parentDivCNHs = document.getElementById("divcnhs");
+
+  // Histórico do contrato
+  var parentDivCNHsBox = document.getElementById("divcnhsbox");
   var parentUlCNHs = document.getElementById("cnhs"); // Elemento pai dos paragrafos (ul cnhs)
   var subtituloElement = document.createElement("p"); // Elemento subtitulo da listagem das CNHs
+
+  //Alterar CNH
 
   // Outros + DEBUG (verificar browser console)
   const botaoDebug = document.getElementById("debug");
@@ -67,7 +71,7 @@ window.onload = () => {
   // Atribuição das funções aos botões
   conectarMeta.onclick = conectar;
   acionarNovoContratoButton.onclick = acionarContrato;
-  registrar.onclick = adicionarCNH;
+  botaoRegistrar.onclick = adicionarCNH;
   botaoConsultar.onclick = consultar;
   botaoLimpar.onclick = limpar;
   botaoDebug.onclick = debug;
@@ -95,15 +99,15 @@ window.onload = () => {
   loadContratos(); // Inicia o carregamento dos contratos disponíveis
 
   async function conectar() {
-    if (typeof window.ethereum !== undefined && conta === null) {
+    if (typeof window.ethereum != undefined && conta == null) {
       try {
         conta = await window.ethereum.request({
           method: "eth_requestAccounts",
         });
         if (conta !== null) {
           // Atualiza as labels conforme a operação de login na extensão é realizada
-      contaConectada.innerHTML = `Conta conectada: ${conta}`;
-      conectarMeta.innerHTML = "Conectado!";
+          contaConectada.innerHTML = `Conta conectada: ${conta}`;
+          conectarMeta.innerHTML = "Conectado!";
         }
       } catch (error) {
         // Caso o usuário possua a extensão, mas não tenha se conectado ainda
@@ -132,10 +136,10 @@ window.onload = () => {
   async function adicionarCNH() {
     if (typeof window.ethereum != undefined && enderecoContratoAtual != null) {
       provedor = new ethers.providers.Web3Provider(window.ethereum); // Provedor = Metamask
+
       const nomeRegistro = nome.value;
       const numeroRegistro = parseInt(registro.value);
-      const validadeRegistro = validade.value;
-      console.log(validadeRegistro);
+
 
       console.log("Nome inserido:", nomeRegistro, typeof nomeRegistro); // debug
       console.log("Registro inserido:", numeroRegistro, typeof numeroRegistro); // debug
@@ -159,7 +163,7 @@ window.onload = () => {
   }
 
   async function consultar() {
-    if (typeof window.ethereum !== undefined && contratoAtual !== null) {
+    if (typeof window.ethereum != undefined && contratoAtual != null) {
       try {
         limparParentElement(resultadoConsultaElement);
         limparParentElement(camposConsulta);
@@ -257,17 +261,15 @@ window.onload = () => {
         novoElementoButton.innerText = contractAddresses[i].toString();
         novoElementoButton.classList = "botoes-contrato";
 
-        elementoAux = document.createElement("br");
         parentElementContratos.appendChild(novoElementoButton);
-        parentElementContratos.appendChild(elementoAux);
+        parentElementContratos.appendChild(document.createElement("br"));
       }
     }
   }
 
   // Carrega as CNHs dispostas no contrato selecionado
   async function loadCNHs() {
-    if (typeof window.ethereum !== undefined && contratoAtual !== undefined) {
-      let nomeArmazenado; // debug
+    if (typeof window.ethereum != undefined && contratoAtual != undefined) {
       let registroArmazenado;
 
       try {
@@ -286,31 +288,21 @@ window.onload = () => {
           for (let i = 0; i < size; i++) {
             var elemento = await contratoAtual.CNHS(i);
 
-            nomeArmazenado = elemento.nome;
             registroArmazenado = elemento.registro.toNumber();
 
-            console.log("Nome: " + nomeArmazenado); // debug
             console.log("Registro: " + registroArmazenado); // debug
 
             var contadorElement = document.createElement("li");
             contadorElement.innerText = "# - " + (i + 1).toString();
             parentUlCNHs.appendChild(contadorElement);
 
-            /*
-            var nomeArmazenadoElement = document.createElement("li");
-            nomeArmazenadoElement.innerText = "Nome: " + nomeArmazenado;
-            parentUlCNHs.appendChild(nomeArmazenadoElement);
-            */
-
             var registroArmazenadoElement = document.createElement("li");
             registroArmazenadoElement.innerText =
               "Registro: " + registroArmazenado;
             parentUlCNHs.appendChild(registroArmazenadoElement);
-
-            elementoAux = document.createElement("br"); // Quebra de linha
-            parentUlCNHs.appendChild(elementoAux);
+            parentUlCNHs.appendChild(document.createElement("br"));
           }
-          console.log(parentDivCNHs); // debug
+          console.log(parentDivCNHsBox); // debug
         }
       } catch (error) {
         console.log(error);
@@ -326,7 +318,7 @@ window.onload = () => {
   }
 
   async function debug() {
-    if (typeof window.ethereum == undefined || contratoAtual === null) {
+    if (typeof window.ethereum == undefined || contratoAtual == null) {
       alert("Escolha um contrato primeiro!");
     } else {
       console.log("Provedor: ", provedor);
@@ -353,9 +345,9 @@ window.onload = () => {
   function limpar() {
     resultadoTextoElement.innerHTML = "";
     limparParentElement(camposConsulta);
-    parentDivCNHs.classList = "";
+    parentDivCNHsBox.classList = "";
   }
-  
+
   const abi = [
     {
       inputs: [],

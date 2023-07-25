@@ -27,7 +27,7 @@ contract Armazenamento {
 
     function addCNH(string memory _nome, uint256 _registro, uint256 _validade) public onlyDono {
         CNHS.push(CNH(_nome, _registro, _validade)); 
-}
+    }
 
     function alterarNome(uint256 _index, string memory _nome) onlyDono() public {
         CNHS[_index].nome = _nome;
