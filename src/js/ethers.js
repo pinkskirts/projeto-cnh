@@ -456,6 +456,37 @@ window.onload = () => {
     }
   }
 
+  function gerarElementsAutomatico() {
+    botaoRegistrar.innerHTML = "Registrar";
+    addValidadeElement.appendChild(botaoRegistrar);
+  }
+
+  function gerarElementsManual() {
+    labelValidade.innerHTML = "Insira a validade da CNH:";
+
+    addValidadeElement.appendChild(labelValidade);
+    addValidadeElement.appendChild(document.createElement("br"));
+    addValidadeElement.appendChild(inputValidade);
+    addValidadeElement.appendChild(document.createElement("br"));
+    addValidadeElement.appendChild(botaoRegistrar);
+  }
+
+  function gerarElementsAlterarNome() {
+    labelNome.innerHTML = "Nome:";
+    inputNome.setAttribute("placeholder", "Nome a ser alterado");
+    parentDivCampoNome.appendChild(labelNome);
+    parentDivCampoNome.appendChild(document.createElement("br"));
+    parentDivCampoNome.appendChild(inputNome);
+    parentDivCampoNome.appendChild(botaoAlterarNome);
+  }
+
+  function gerarElementsAlterarValidade() {
+    labelValidade.innerHTML = "Data de vencimento: ";
+    parentDivCampoValidade.appendChild(labelValidade);
+    parentDivCampoValidade.appendChild(document.createElement("br"));
+    parentDivCampoValidade.appendChild(inputValidade);
+    parentDivCampoValidade.appendChild(botaoAlterarValidade);
+  }
 
   function getEpochAtual() {
     var dataAtual = new Date();
