@@ -120,6 +120,19 @@ window.onload = () => {
     }
   });
 
+  // Escolha entre as opções de adição de validade
+  formValidade.addEventListener("change", function (event) {
+    var opcaoSelecionada = event.target.value;
+
+    limparParentElement(addValidadeElement);
+    if (opcaoSelecionada === "manual") {
+      gerarElementsManual();
+    } else {
+      gerarElementsAutomatico();
+    }
+  });
+
+
   provedor = new ethers.providers.Web3Provider(window.ethereum);
   signer = provedor.getSigner(); // Retorna a carteira (objeto da carteira) assinante das transacoes, atrelada ao provedor (Metamask)
   loadContratos(); // Inicia o carregamento dos contratos disponíveis
