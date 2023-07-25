@@ -200,23 +200,36 @@ window.onload = () => {
 
       const nomeRegistro = nome.value;
       const numeroRegistro = parseInt(registro.value);
+      var validadeRegistro;
 
+      if (opcaoValidade === "manual") {
+        validadeRegistro = converterDataParaUnixEpoch(inputValidade.value);
+      } else {
+        validadeRegistro = getEpochAtual() + 31556952 * 10;
+      }
 
       console.log("Nome inserido:", nomeRegistro, typeof nomeRegistro); // debug
       console.log("Registro inserido:", numeroRegistro, typeof numeroRegistro); // debug
+      console.log(
+        "Data inserida (Epox):",
+        validadeRegistro,
+        typeof validadeRegistro
+      ); // debug
 
       try {
         const transactionResponse = await contratoAtual.addCNH(
           nomeRegistro,
-          numeroRegistro
+          numeroRegistro,
+          validadeRegistro
         );
         await listenForTransactionMine(transactionResponse, provedor);
+        limparParentElement(parentUlCNHs);
         subtituloElement.innerText = "Registros disponíveis:";
         loadCNHs();
       } catch (error) {
         console.log(error);
       }
-    } else if (typeof window.ethereum != undefined) {
+    } else if (typeof window.ethereum !== undefined) {
       alert("Escolha um contrato primeiro!");
     } else {
       alert("Por favor, conecte-se ao MetaMask!");
