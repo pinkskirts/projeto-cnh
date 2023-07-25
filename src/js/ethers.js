@@ -98,6 +98,9 @@ window.onload = () => {
   botaoConsultar.onclick = consultar;
   botaoLimpar.onclick = limpar;
   botaoDebug.onclick = debug;
+  botaoAlterarNome.onclick = mudarNome;
+  botaoAlterarValidade.onclick = mudarValidade;
+
   parentElementContratos.addEventListener("click", function (event) {
     if (conta !== null) {
       // Verifica se o evento foi originado pelo botão dinamicamente adicionado
