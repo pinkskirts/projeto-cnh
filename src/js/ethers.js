@@ -311,6 +311,35 @@ window.onload = () => {
     }
   }
 
+  async function mudarNome() {
+    if (typeof window.ethereum != undefined && contratoAtual != undefined) {
+      try {
+        var size = (await contratoAtual.getCNHlength()).toNumber();
+        let aux;
+
+        for (var i = 0; i < size; i++) {
+          aux = await contratoAtual.CNHS(i);
+          if (aux.registro == inputRegistroAlterar.value) {
+            try {
+              var transactionResponse = await contratoAtual.alterarNome(
+                i,
+                inputNome.value
+              );
+              await listenForTransactionMine(transactionResponse, provedor);
+            } catch (error) {
+              console.log(error);
+            }
+          }
+        }
+        loadCNHs();
+      } catch (error) {
+        console.log(error); // debug
+      }
+    } else {
+      alert("Escolha um contrato primeiro!");
+    }
+  }
+
   async function mudarValidade() {
     if (typeof window.ethereum != undefined && contratoAtual != undefined) {
       try {
