@@ -246,15 +246,17 @@ window.onload = () => {
         if (size == 0) {
           alert("Contrato não possui CNHs armazenadas.");
         } else {
-          var nomeArmazenado;
-          var registroArmazenado = null;
+          let nomeArmazenado;
+          let registroArmazenado = null;
+          let validadeArmazenada;
           var aux;
 
           for (var i = 0; i < size; i++) {
             aux = await contratoAtual.CNHS(i);
             if (aux.registro == inputConsulta.value) {
               nomeArmazenado = aux.nome;
-              registroArmazenado = inputConsulta.value;
+              registroArmazenado = aux.registro;
+              validadeArmazenada = aux.validade;
             }
           }
           resultadoTextoElement.innerText = "Resultado:";
@@ -263,14 +265,18 @@ window.onload = () => {
           if (registroArmazenado !== null) {
             var nomeConsultaElement = document.createElement("li");
             var registroConsultaElement = document.createElement("li");
+            var validadeConsultaElement = document.createElement("li");
 
             nomeConsultaElement.innerText = "Nome: " + nomeArmazenado;
             registroConsultaElement.innerText =
               "Registro: " + registroArmazenado;
+            validadeConsultaElement.innerText =
+              "Validade: " + converterUnixEpochParaData(validadeArmazenada);
 
             resultadoConsultaElement.appendChild(camposConsulta);
             camposConsulta.appendChild(nomeConsultaElement);
             camposConsulta.appendChild(registroConsultaElement);
+            camposConsulta.appendChild(validadeConsultaElement);
           } else {
             var CNHNotFoundElement = document.createElement("p");
             CNHNotFoundElement.innerText = "CNH não encontrada!";
