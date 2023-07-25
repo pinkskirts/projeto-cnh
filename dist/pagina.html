@@ -40,50 +40,46 @@
     <hr />
     <h2>Registro de CNH</h2>
 
-    <label for="nomeregistro">Nome:</label><br />
+    <label for="nomeInput">Nome:</label><br />
     <input
       type="text"
       pattern="^[a-zA-Z_ ]*$"
-      name="nomeregistro"
       id="nomeInput"
       placeholder="Inserir nome"
       required
-    /><br />
+    /><br /><br />
 
-    <label for="numeroregistro">Registro:</label><br />
+    <label for="registroInput">Registro:</label><br />
     <input
       type="number"
-      name="numeroregistro"
       id="registroInput"
       placeholder="Inserir n° de registro"
       required
     /><br />
 
-    <label for="validaderegistro">Validade:</label><br />
-    <input
-      type="date"
-      name="validaderegistro"
-      id="validadeInput"
-      placeholder="Inserir validade"
-      required
-    /><br />
-    <button id="registrar">Registrar</button>
+    <div>
+      <br />
+      Selecione o modo de inserção de validade:
+      <form id="formValidade">
+        <ul>
+          <li>
+            <label for="manual">Manual</label>
+            <input type="radio" id="manual" name="modo" value="manual" />
+          </li>
+          <li>
+            <label for="automatico">Automático</label>
+            <input
+              type="radio"
+              id="automatico"
+              name="modo"
+              value="automatico"
+            />
+          </li>
+        </ul>
+      </form>
 
-    <!-- Seção de Alteração -->
-    <hr />
-    <h2>Alterar CNH</h2>
-    <label for="nomeAlterar">Nome:</label><br />
-    <input
-      type="text"
-      pattern="^[a-zA-Z_ ]*$"
-      name="nomeAlterar"
-      id="nomeAlterar"
-      placeholder="Nome a ser alterado"
-      required
-    /><br />
-    <label for="data">Data de vencimento:</label><br />
-    <input type="date" name="data" id="data" placeholder="" required /><br />
-    <button id="alterar">Alterar</button>
+      <div id="addValidade"></div>
+    </div>
 
     <!-- Seção de Consulta -->
     <hr />
@@ -92,25 +88,49 @@
     <label for="inputConsulta">Registro:</label><br />
     <input
       type="number"
-      pattern="^[a-zA-Z_ ]*$"
       id="inputConsulta"
       placeholder="Inserir n° de registro"
       required
     />
     <button id="consultar" type="submit">Consultar</button>
-
-    <!-- Resultado da consulta -->
-
-    <div id="resultadoConsulta"></div>
-
     <button id="limpar" type="submit">Limpar</button>
 
-    <div id="divcnhs">
+    <!-- Resultado da consulta -->
+    <div id="resultadoConsulta"></div>
+    <div id="divhr"></div>
+
+    <!-- Cnhs disponíveis do contrato -->
+    <div id="divcnhsbox">
       <ul class="scrollable-list" id="cnhs"></ul>
     </div>
 
     <hr />
+
+    <!-- Seção de Alteração -->
+    <h2>Alterar CNH</h2>
+    <label for="registroAlterar">N° de Registro:</label> <br />
+    <input
+      type="number"
+      id="registroAlterar"
+      placeholder="Inserir n° de registro"
+    /><br />
+    <br />
+
+    <u>Campo(s) a alterar:</u>
+    <form id="formCheckboxAlterar">
+      <label for="nomeAlterar"><b>Nome</b></label>
+      <input type="checkbox" id="nomeAlterar" />
+
+      <label for="validadeAlterar"><b>Validade</b></label>
+      <input type="checkbox" id="validadeAlterar" />
+    </form>
+    <br />
+
+    <div id="campoNome"></div>
+    <div id="campoValidade"></div>
+
     <!-- Outros - Debug -->
+    <hr />
     <button id="debug" type="submit">Debug</button>
   </body>
 </html>
