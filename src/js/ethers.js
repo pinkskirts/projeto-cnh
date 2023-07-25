@@ -311,6 +311,13 @@ window.onload = () => {
     }
   }
 
+  function getEpochAtual() {
+    var dataAtual = new Date();
+    var tempoEmMilissegundos = dataAtual.getTime();
+    var tempoEmSegundos = Math.floor(tempoEmMilissegundos / 1000);
+    return tempoEmSegundos;
+  }
+
   function converterDataParaUnixEpoch(dataString) {
     var data = new Date(dataString);
     var segundos = Math.floor(data.getTime() / 1000);
