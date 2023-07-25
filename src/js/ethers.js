@@ -271,18 +271,22 @@ window.onload = () => {
   async function loadCNHs() {
     if (typeof window.ethereum != undefined && contratoAtual != undefined) {
       let registroArmazenado;
+      limparParentElement(parentUlCNHs);
+      limparParentElement(divhrElement);
 
       try {
         var size = (await contratoAtual.getCNHlength()).toNumber();
         console.log("Quantidade de CNHs no contrato: " + size); // debug
 
+        divhrElement.appendChild(document.createElement("hr"));
+
         if (size === 0) {
           subtituloElement.innerText = "Contrato vazio!";
-          parentDivCNHs.classList = "";
+          parentDivCNHsBox.classList = "";
           parentUlCNHs.appendChild(subtituloElement);
         } else {
           subtituloElement.innerText = "Registros disponíveis:";
-          parentDivCNHs.classList = "box";
+          parentDivCNHsBox.classList = "box";
           parentUlCNHs.appendChild(subtituloElement);
 
           for (let i = 0; i < size; i++) {
