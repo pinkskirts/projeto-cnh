@@ -270,6 +270,8 @@ window.onload = () => {
             nomeConsultaElement.innerText = "Nome: " + nomeArmazenado;
             registroConsultaElement.innerText =
               "Registro: " + registroArmazenado;
+
+            validadeArmazenada = validadeArmazenada.toNumber() + 86400;
             validadeConsultaElement.innerText =
               "Validade: " + converterUnixEpochParaData(validadeArmazenada);
 
