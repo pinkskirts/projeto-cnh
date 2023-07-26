@@ -46,8 +46,11 @@ window.onload = () => {
   // Registrar
   const nome = document.getElementById("nomeInput");
   const registro = document.getElementById("registroInput");
+  const formValidade = document.getElementById("formValidade");
+  var addValidadeElement = document.getElementById("addValidade");
   var botaoRegistrar = document.createElement("button");
   botaoRegistrar.innerHTML = "Registrar";
+  var opcaoValidade = null;
 
   // Consultar CNH
   const inputConsulta = document.getElementById("inputConsulta");
@@ -120,6 +123,38 @@ window.onload = () => {
     }
   });
 
+  // Escolha entre as opções de adição de validade
+  formValidade.addEventListener("change", function (event) {
+    var opcaoSelecionada = event.target.value;
+
+    limparParentElement(addValidadeElement);
+    if (opcaoSelecionada === "manual") {
+      gerarElementsManual();
+    } else {
+      gerarElementsAutomatico();
+    }
+  });
+
+  checkboxNome.addEventListener("change", function () {
+    if (checkboxNome.checked) {
+      // check
+      gerarElementsAlterarNome();
+    } else {
+      // uncheck
+      limparParentElement(parentDivCampoNome);
+    }
+  });
+
+  checkboxValidade.addEventListener("change", function (event) {
+    if (checkboxValidade.checked) {
+      // check
+      gerarElementsAlterarValidade();
+    } else {
+      // uncheck
+      limparParentElement(parentDivCampoValidade);
+    }
+  });
+
   provedor = new ethers.providers.Web3Provider(window.ethereum);
   signer = provedor.getSigner(); // Retorna a carteira (objeto da carteira) assinante das transacoes, atrelada ao provedor (Metamask)
   loadContratos(); // Inicia o carregamento dos contratos disponíveis
@@ -165,23 +200,36 @@ window.onload = () => {
 
       const nomeRegistro = nome.value;
       const numeroRegistro = parseInt(registro.value);
+      var validadeRegistro;
 
+      if (opcaoValidade === "manual") {
+        validadeRegistro = converterDataParaUnixEpoch(inputValidade.value);
+      } else {
+        validadeRegistro = getEpochAtual() + 31556952 * 10;
+      }
 
       console.log("Nome inserido:", nomeRegistro, typeof nomeRegistro); // debug
       console.log("Registro inserido:", numeroRegistro, typeof numeroRegistro); // debug
+      console.log(
+        "Data inserida (Epox):",
+        validadeRegistro,
+        typeof validadeRegistro
+      ); // debug
 
       try {
         const transactionResponse = await contratoAtual.addCNH(
           nomeRegistro,
-          numeroRegistro
+          numeroRegistro,
+          validadeRegistro
         );
         await listenForTransactionMine(transactionResponse, provedor);
+        limparParentElement(parentUlCNHs);
         subtituloElement.innerText = "Registros disponíveis:";
         loadCNHs();
       } catch (error) {
         console.log(error);
       }
-    } else if (typeof window.ethereum != undefined) {
+    } else if (typeof window.ethereum !== undefined) {
       alert("Escolha um contrato primeiro!");
     } else {
       alert("Por favor, conecte-se ao MetaMask!");
@@ -198,15 +246,17 @@ window.onload = () => {
         if (size == 0) {
           alert("Contrato não possui CNHs armazenadas.");
         } else {
-          var nomeArmazenado;
-          var registroArmazenado = null;
+          let nomeArmazenado;
+          let registroArmazenado = null;
+          let validadeArmazenada;
           var aux;
 
           for (var i = 0; i < size; i++) {
             aux = await contratoAtual.CNHS(i);
             if (aux.registro == inputConsulta.value) {
               nomeArmazenado = aux.nome;
-              registroArmazenado = inputConsulta.value;
+              registroArmazenado = aux.registro;
+              validadeArmazenada = aux.validade;
             }
           }
           resultadoTextoElement.innerText = "Resultado:";
@@ -215,14 +265,20 @@ window.onload = () => {
           if (registroArmazenado !== null) {
             var nomeConsultaElement = document.createElement("li");
             var registroConsultaElement = document.createElement("li");
+            var validadeConsultaElement = document.createElement("li");
 
             nomeConsultaElement.innerText = "Nome: " + nomeArmazenado;
             registroConsultaElement.innerText =
               "Registro: " + registroArmazenado;
 
+            validadeArmazenada = validadeArmazenada.toNumber() + 86400;
+            validadeConsultaElement.innerText =
+              "Validade: " + converterUnixEpochParaData(validadeArmazenada);
+
             resultadoConsultaElement.appendChild(camposConsulta);
             camposConsulta.appendChild(nomeConsultaElement);
             camposConsulta.appendChild(registroConsultaElement);
+            camposConsulta.appendChild(validadeConsultaElement);
           } else {
             var CNHNotFoundElement = document.createElement("p");
             CNHNotFoundElement.innerText = "CNH não encontrada!";
@@ -402,6 +458,37 @@ window.onload = () => {
     }
   }
 
+  function gerarElementsAutomatico() {
+    botaoRegistrar.innerHTML = "Registrar";
+    addValidadeElement.appendChild(botaoRegistrar);
+  }
+
+  function gerarElementsManual() {
+    labelValidade.innerHTML = "Insira a validade da CNH:";
+
+    addValidadeElement.appendChild(labelValidade);
+    addValidadeElement.appendChild(document.createElement("br"));
+    addValidadeElement.appendChild(inputValidade);
+    addValidadeElement.appendChild(document.createElement("br"));
+    addValidadeElement.appendChild(botaoRegistrar);
+  }
+
+  function gerarElementsAlterarNome() {
+    labelNome.innerHTML = "Nome:";
+    inputNome.setAttribute("placeholder", "Nome a ser alterado");
+    parentDivCampoNome.appendChild(labelNome);
+    parentDivCampoNome.appendChild(document.createElement("br"));
+    parentDivCampoNome.appendChild(inputNome);
+    parentDivCampoNome.appendChild(botaoAlterarNome);
+  }
+
+  function gerarElementsAlterarValidade() {
+    labelValidade.innerHTML = "Data de vencimento: ";
+    parentDivCampoValidade.appendChild(labelValidade);
+    parentDivCampoValidade.appendChild(document.createElement("br"));
+    parentDivCampoValidade.appendChild(inputValidade);
+    parentDivCampoValidade.appendChild(botaoAlterarValidade);
+  }
 
   function getEpochAtual() {
     var dataAtual = new Date();
