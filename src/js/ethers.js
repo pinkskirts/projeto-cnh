@@ -9,7 +9,7 @@ window.onload = () => {
   //const RPC_URL = process.env.RPC_URL;
 
   const CHAVE_PRIVADA =
-    "0b252161d411f4dce27b3dbb1c3eb35c54aa0bd8361cb3af046280730105a9c2";
+    "fee91eb7c5aa133918d4834b5a79e801973ef8d9e609fb653cbcf6323dbc7eef";
   const RPC_URL = "http://127.0.0.1:7545";
 
   var contratoAtual = null;
@@ -167,7 +167,8 @@ window.onload = () => {
         });
         if (conta !== null) {
           // Atualiza as labels conforme a operação de login na extensão é realizada
-          contaConectada.innerHTML = `Conta conectada: ${conta}`;
+          contaConectada.innerHTML = `Conta conectada: ${conta[1]}`;
+          console.log(conta);
           conectarMeta.innerHTML = "Conectado!";
         }
       } catch (error) {
@@ -525,7 +526,7 @@ window.onload = () => {
       console.log(contratoAtual.interface);
       console.log(contratoAtual.provider);
       console.log(contratoAtual.signer);
-      console.log(conta);
+      console.log("Endereço da conta conectada: ", conta[1]);
     }
   }
 
